@@ -1,0 +1,11 @@
+{
+  "name": "SuperTest-API-test",
+  "version": "1.0.0",
+  "description": "UP42 API tests",
+  "main": "index.js",
+  "author": "Richard Dahmen",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha"
+  }  
+}
