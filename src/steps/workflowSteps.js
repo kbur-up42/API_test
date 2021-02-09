@@ -28,29 +28,36 @@ class WorkflowSteps extends Steps {
         expect(deletionCallResult).to.equal(true);
     }
 
-    async iCallTheApiToCreateATaskInsideMyWorkflow() {
-        const result = await this.api.addTaskToWorkflowWithId(this.createdWorkflow.id);
-        // console.log(result)
+    async iCallTheApiToCreateTheFollowingTasksInsideMyWorkflow(tasks) {
+        const result = await this.api.addTaskToWorkflowWithId(this.createdWorkflow.id, tasks);
+        this.createdWorkflow.addedTasksResponse = result;
     }
 
-    async aTaskShouldHaveBeenCreatedInsideMyWorkflow() {
-
-    }
-
-    async iCallTheApiToRunMyJobInsideMyWorkflow() {
-
+    async theTasksShouldHaveBeenCreatedInsideMyWorkflow(tasks) {
+        var taskCountFound = 0;
+        for (const responseItem in this.createdWorkflow.addedTasksResponse) {
+            for (const givenTask in tasks) {
+                if (givenTask.name === responseItem.name) {
+                    taskCountFound ++;
+                    // break needed out of inner for loop to prevent duplicate task counting
+                    break;
+                }
+            }
+        }
+        expect(taskCountFound).to.equal(2)
     }
 
     async aJobShouldBeRunningInsideMyWorkflow() {
-        
+        expect(this.createdWorkflow.runningJobs.data.id).to.be.a('string');
     }
 
     async aWorkFlowShouldHaveBeenCreated() {
         expect(this.createdWorkflow.id).to.be.a('string');
     }
 
-    async iCallTheApiToCreateAJobInsideMyWorkflow() {
-
+    async iCallTheApiToCreateAndRunTheFollowingJobsForMyWorkflow(jobsToCreate) {
+        const runningJobInformation = await this.api.createAndRunJobsInWorkflowWithId(this.createdWorkflow.id, jobsToCreate);
+        this.createdWorkflow.runningJobs = runningJobInformation;
     }
 }
 
