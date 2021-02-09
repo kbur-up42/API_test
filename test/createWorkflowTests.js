@@ -19,27 +19,6 @@ const tasksToCreate = [
     } 
 ];
 
-const jobToCreate = {
-    "nasa-modis:1": {
-        "time": "2018-12-01T00:00:00+00:00/2020-12-31T23:59:59+00:00", "limit": 1,
-        "zoom_level": 9,
-        "imagery_layers": [
-            "MODIS_Terra_CorrectedReflectance_TrueColor" 
-        ],
-        "bbox": [ 
-            13.365373, 
-            52.49582, 
-            13.385796, 
-            52.510455
-        ] 
-    },
-    "sharpening:1": { 
-        "strength": "medium"
-    } 
-}
-  
-
-
 describe('Workflow API testing', () => {
     beforeEach( async () => {
         steps = new WorkflowSteps();
@@ -50,12 +29,12 @@ describe('Workflow API testing', () => {
         await steps.iCallTheApiToDeleteMyCreatedWorkflow();
     });
 
-    it('should create an empty workflow', async () => { //OK
+    it('should create an empty workflow', async () => {
         await steps.when.iCallTheApiToCreateANewWorkflowUsing(workflowToCreate.name, workflowToCreate.description);
         await steps.then.aWorkFlowShouldHaveBeenCreated();
     });
 
-    it('should create a workflow with a \'MODIS (GeoTIFF) by NASA\' block', async () => { //OK
+    it('should create a workflow with a \'MODIS (GeoTIFF) by NASA\' block', async () => {
         
         await steps.when.iCallTheApiToCreateANewWorkflowUsing(workflowToCreate.name, workflowToCreate.description);
         await steps.and.iCallTheApiToCreateTheFollowingTasksInsideMyWorkflow(tasksToCreate);

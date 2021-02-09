@@ -50,6 +50,6 @@ describe('Workflow API testing', () => {
         await steps.iCallTheApiToDeleteMyCreatedWorkflow();
     });
 
-    it('should create a workflow with blocks, run it and asynchronously monitors the running job', async () => { //TODO
+    it('should create a workflow with blocks, run it and asynchronously monitors the running job', async () => {
     });
 });
