@@ -1,15 +1,14 @@
-const API = require('./api/up42Api');
+const API = require('../api/up42Api');
+const Steps = require('./../framework/abstractSteps')
 const chai = require('chai');
 const expect = chai.expect;
 
-class Steps {
-    given = this;
-    when = this;
-    then = this;
-    and = this;
+class WorkflowSteps extends Steps {
+    
     createdWorkflow = {};
 
     constructor() {
+        super();
         this.api = new API()
     }
 
@@ -31,12 +30,28 @@ class Steps {
 
     async iCallTheApiToCreateATaskInsideMyWorkflow() {
         const result = await this.api.addTaskToWorkflowWithId(this.createdWorkflow.id);
-        console.log(result)
+        // console.log(result)
+    }
+
+    async aTaskShouldHaveBeenCreatedInsideMyWorkflow() {
+
+    }
+
+    async iCallTheApiToRunMyJobInsideMyWorkflow() {
+
+    }
+
+    async aJobShouldBeRunningInsideMyWorkflow() {
+        
     }
 
     async aWorkFlowShouldHaveBeenCreated() {
         expect(this.createdWorkflow.id).to.be.a('string');
     }
+
+    async iCallTheApiToCreateAJobInsideMyWorkflow() {
+
+    }
 }
 
-module.exports = Steps;
+module.exports = WorkflowSteps;

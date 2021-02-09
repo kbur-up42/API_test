@@ -8,6 +8,30 @@ class API {
     authenticationUrl = `https://${this.PROJECT_ID}:${this.PROJECT_API_KEY}@api.up42.com`;
     baseUrl = `https://api.up42.com/projects/${this.PROJECT_ID}`
 
+    async addTaskToWorkflowWithId(workflowId) {
+        const payload = [
+            {
+                "name": "nasa-modis:1",
+                "parentName": null,
+                "blockId": "ef6faaf5-8182-4986-bce4-4f811d2745e5"
+            }, {
+                "name": "sharpening:1",
+                "parentName": "nasa-modis:1",
+                "blockId": "e374ea64-dc3b-4500-bb4b-974260fb203e"
+            } 
+        ]
+        return await request(this.baseUrl)
+            .post(`/workflows/${workflowId}/tasks/ `)
+            .set(`Authorization`, `Bearer ${this.ACCESS_TOKEN}`)
+            .set('Content-Type', 'application/json')
+            .send(payload)
+            .expect(200)
+            .then((taskCreationPostResponse) => {
+                expect(taskCreationPostResponse.body.error).to.be.a('null');
+                return taskCreationPostResponse.body.data;
+            })
+    }
+
     async authenticate() {
         await request(this.authenticationUrl)
             .post('/oauth/token')
@@ -34,30 +58,6 @@ class API {
             .then((workflowCreationPostResponse) => {
                 expect(workflowCreationPostResponse.body.error).to.be.a('null');
                 return workflowCreationPostResponse.body.data;
-            })
-    }
-
-    async addTaskToWorkflowWithId(workflowId) {
-        const payload = [
-            {
-                "name": "nasa-modis:1",
-                "parentName": null,
-                "blockId": "ef6faaf5-8182-4986-bce4-4f811d2745e5"
-            }, {
-                "name": "sharpening:1",
-                "parentName": "nasa-modis:1",
-                "blockId": "e374ea64-dc3b-4500-bb4b-974260fb203e"
-            } 
-        ]
-        return await request(this.baseUrl)
-            .post(`/workflows/${workflowId}/tasks/ `)
-            .set(`Authorization`, `Bearer ${this.ACCESS_TOKEN}`)
-            .set('Content-Type', 'application/json')
-            .send(payload)
-            .expect(200)
-            .then((taskCreationPostResponse) => {
-                expect(taskCreationPostResponse.body.error).to.be.a('null');
-                return taskCreationPostResponse.body.data;
             })
     }
 
