@@ -6,11 +6,12 @@
   "author": "Richard Dahmen",
   "license": "MIT",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --reporter mochawesome"
   },
   "dependencies": {
     "chai": "^4.3.0",
     "mocha": "^8.2.1",
+    "mochawesome": "^6.2.1",
     "supertest": "^6.1.3"
   }
 }
